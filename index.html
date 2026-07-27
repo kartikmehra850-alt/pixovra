@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixovra | Crafting Websites That Grow Brands</title>
+    <meta name="description" content="Pixovra creates fast, modern, and SEO-friendly websites for businesses, startups, and creators. Elevate your digital presence.">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            900: '#1e3a8a',
+                        }
+                    },
+                    boxShadow: {
+                        'premium': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                        'premium-hover': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        /* Glassmorphism utility */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+        /* Text Gradient Utility */
+        .text-gradient {
+            background: linear-gradient(135deg, #2563eb, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* FAQ Accordion Transitions */
+        .faq-answer {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease-out;
+        }
+        .faq-answer > div {
+            overflow: hidden;
+        }
+        .faq-item.open .faq-answer {
+            grid-template-rows: 1fr;
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-item.open .faq-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800 overflow-x-hidden selection:bg-brand-100 selection:text-brand-900">
+
+    <nav class="fixed w-full z-50 glass transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <span class="text-2xl font-bold tracking-tighter text-gray-900">Pixovra<span class="text-brand-600">.</span></span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#services" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Services</a>
+                    <a href="#portfolio" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Portfolio</a>
+                    <a href="#pricing" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Pricing</a>
+                    <a href="#network" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Network</a>
+                    <a href="#contact" class="px-5 py-2.5 rounded-full bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                        Get in Touch
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-gray-900 focus:outline-none p-2">
+                        <i class="ph ph-list text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-100 absolute w-full shadow-xl">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#services" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">Services</a>
+                <a href="#portfolio" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">Portfolio</a>
+                <a href="#pricing" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">Pricing</a>
+                <a href="#network" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-gray-50 rounded-md">Network</a>
+                <a href="#contact" class="block mt-4 px-3 py-3 text-center text-base font-medium bg-gray-900 text-white rounded-md">Get in Touch</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden flex items-center min-h-[90vh]">
+        <!-- Decorative background elements -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full overflow-hidden -z-10 pointer-events-none">
+            <div class="absolute top-20 left-1/4 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-pulse-slow"></div>
+            <div class="absolute top-40 right-1/4 w-72 h-72 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-pulse-slow" style="animation-delay: 2s;"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-brand-600 text-sm font-medium mb-8 reveal">
+                <span class="flex h-2 w-2 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-500"></span>
+                </span>
+                <span>Pixovra Web Design Agency</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-gray-900 mb-6 leading-tight reveal delay-100 max-w-4xl mx-auto">
+                Premium Websites That Help Your Brand <span class="text-gradient">Grow</span>
+            </h1>
+            
+            <p class="mt-4 text-xl md:text-2xl text-gray-500 max-w-2xl mx-auto mb-10 reveal delay-200">
+                We create fast, modern, and SEO-friendly websites for businesses, startups, and creators. Crafting digital experiences that convert.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 reveal delay-300">
+                <a href="#contact" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium hover:shadow-lg hover:shadow-brand-500/30 transition-all transform hover:-translate-y-1 flex items-center justify-center group">
+                    Get Started
+                    <i class="ph ph-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#portfolio" class="w-full sm:w-auto px-8 py-4 rounded-full bg-white border border-gray-200 text-gray-700 font-medium hover:bg-gray-50 hover:border-gray-300 transition-all flex items-center justify-center">
+                    View Portfolio
+                </a>
+            </div>
+            
+            <!-- Trust indicators -->
+            <div class="mt-16 pt-10 border-t border-gray-100 reveal delay-300">
+                <p class="text-sm font-medium text-gray-400 mb-6 uppercase tracking-wider">Trusted by innovative brands</p>
+                <div class="flex flex-wrap justify-center gap-8 md:gap-16 opacity-60 grayscale">
+                    <!-- Placeholder logos representing generic companies -->
+                    <div class="flex items-center gap-2"><i class="ph ph-hexagon-fill text-2xl"></i><span class="font-bold text-xl tracking-tighter">AcmeCorp</span></div>
+                    <div class="flex items-center gap-2"><i class="ph ph-triangle-fill text-2xl"></i><span class="font-bold text-xl tracking-tighter">Nexus</span></div>
+                    <div class="flex items-center gap-2"><i class="ph ph-circle-notch text-2xl"></i><span class="font-bold text-xl tracking-tighter">GlobalTech</span></div>
+                    <div class="flex items-center gap-2"><i class="ph ph-square-logo-fill text-2xl"></i><span class="font-bold text-xl tracking-tighter">Innovate</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-24 bg-gray-50/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-sm font-bold text-brand-600 tracking-wide uppercase mb-2">Our Services</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">Everything you need to succeed online.</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-premium hover:shadow-premium-hover transition-all duration-300 border border-gray-100 group reveal">
+                    <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center text-brand-600 mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph ph-buildings text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold text-gray-900 mb-3">Business Website</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">Professional online presence establishing credibility and attracting new clients for your company.</p>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-premium hover:shadow-premium-hover transition-all duration-300 border border-gray-100 group reveal delay-100">
+                    <div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600 mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph ph-rocket-launch text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold text-gray-900 mb-3">Landing Page</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">High-conversion single pages designed specifically to capture leads or drive targeted sales.</p>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-premium hover:shadow-premium-hover transition-all duration-300 border border-gray-100 group reveal delay-200">
+                    <div class="w-12 h-12 bg-pink-50 rounded-xl flex items-center justify-center text-pink-600 mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph ph-user-focus text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold text-gray-900 mb-3">Portfolio Website</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">Beautifully showcase your work, art, or personal brand with a premium, tailored digital gallery.</p>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="bg-white p-8 rounded-2xl shadow-premium hover:shadow-premium-hover transition-all duration-300 border border-gray-100 group reveal">
+                    <div class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center text-orange-600 mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph ph-article text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold text-gray-900 mb-3">Blog Website</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">Content-focused platforms optimized for readability, engagement, and easy publishing.</p>
+                </div>
+
+                <!-- Service 5 -->
+                <div class="bg-white p-8 rounded-2xl shadow-premium hover:shadow-premium-hover transition-all duration-300 border border-gray-100 group reveal delay-100">
+                    <div class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center text-teal-600 mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph ph-magic-wand text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold text-gray-900 mb-3">Website Redesign</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">Modernize your outdated site with a fresh UI/UX, improved performance, and better conversion rates.</p>
+                </div>
+
+                <!-- Service 6 -->
+                <div class="bg-white p-8 rounded-2xl shadow-premium hover:shadow-premium-hover transition-all duration-300 border border-gray-100 group reveal delay-200">
+                    <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center text-green-600 mb-6 group-hover:scale-110 transition-transform">
+                        <i class="ph ph-magnifying-glass text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold text-gray-900 mb-3">Basic SEO Setup</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">Essential on-page optimization to ensure your website is discoverable by Google and other search engines.</p>
+                </div>
+            </div>
+            
+            <!-- Centered Maintenance Service -->
+            <div class="mt-8 max-w-md mx-auto bg-gray-900 text-white p-8 rounded-2xl shadow-xl border border-gray-800 text-center reveal">
+                <i class="ph ph-wrench text-3xl text-gray-400 mb-4 inline-block"></i>
+                <h4 class="text-xl font-semibold mb-2">Website Maintenance</h4>
+                <p class="text-gray-400 text-sm mb-6">Ongoing support to keep your site secure, updated, and running smoothly.</p>
+                <a href="#contact" class="text-sm font-medium text-white hover:text-brand-400 transition-colors inline-flex items-center">
+                    Inquire about plans <i class="ph ph-arrow-right ml-1"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 reveal">
+                <div class="max-w-2xl">
+                    <h2 class="text-sm font-bold text-brand-600 tracking-wide uppercase mb-2">Selected Works</h2>
+                    <h3 class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">Premium designs that drive results.</h3>
+                </div>
+                <div class="mt-6 md:mt-0">
+                    <a href="https://www.instagram.com/kartikmehra.ai" target="_blank" class="text-brand-600 font-medium hover:text-brand-700 inline-flex items-center transition-colors">
+                        View more on Instagram <i class="ph ph-arrow-up-right ml-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Portfolio Item 1 -->
+                <div class="group relative rounded-2xl overflow-hidden shadow-premium reveal cursor-pointer aspect-video bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Fintech Dashboard Design" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
+                        <span class="text-brand-400 text-sm font-medium mb-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">SaaS / Dashboard</span>
+                        <h4 class="text-white text-2xl font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">Fintech Analytics Platform</h4>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 2 -->
+                <div class="group relative rounded-2xl overflow-hidden shadow-premium reveal delay-100 cursor-pointer aspect-video bg-gray-100">
+                    <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="E-commerce Website" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
+                        <span class="text-brand-400 text-sm font-medium mb-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">E-commerce</span>
+                        <h4 class="text-white text-2xl font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">Minimalist Fashion Store</h4>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 3 -->
+                <div class="group relative rounded-2xl overflow-hidden shadow-premium reveal cursor-pointer aspect-video bg-gray-100 md:col-span-2">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Corporate Website" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
+                        <span class="text-brand-400 text-sm font-medium mb-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Corporate</span>
+                        <h4 class="text-white text-3xl font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">Architecture Firm Rebrand</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="py-24 bg-gray-50/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-sm font-bold text-brand-600 tracking-wide uppercase mb-2">Transparent Pricing</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">Premium quality, accessible investment.</h3>
+            </div>
+
+            <div class="max-w-lg mx-auto relative reveal">
+                <!-- Highlight accent behind card -->
+                <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2rem] blur opacity-25"></div>
+                
+                <div class="relative bg-white rounded-[2rem] p-8 md:p-10 shadow-xl border border-gray-100">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <h4 class="text-2xl font-bold text-gray-900">Basic Website</h4>
+                            <p class="text-gray-500 text-sm mt-1">Perfect for small businesses starting out.</p>
+                        </div>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-semibold uppercase tracking-wider">
+                            Most Popular
+                        </span>
+                    </div>
+
+                    <div class="mb-8 flex items-baseline text-gray-900">
+                        <span class="text-sm font-semibold mr-2 text-gray-500">Starting From</span>
+                        <span class="text-4xl md:text-5xl font-extrabold tracking-tight">₹7,499</span>
+                    </div>
+
+                    <a href="#contact" class="block w-full py-4 px-6 rounded-xl bg-gray-900 text-white text-center font-medium hover:bg-gray-800 transition-colors shadow-md mb-8">
+                        Start Your Project
+                    </a>
+
+                    <div class="space-y-4">
+                        <p class="text-sm font-medium text-gray-900 uppercase tracking-wider mb-4">What's included</p>
+                        
+                        <!-- Feature List -->
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="ph-fill ph-check-circle text-brand-500 text-lg mr-3 mt-0.5"></i>
+                                <span class="text-gray-600 text-sm">Up to 5 Pages</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="ph-fill ph-check-circle text-brand-500 text-lg mr-3 mt-0.5"></i>
+                                <span class="text-gray-600 text-sm">Mobile Responsive Design</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="ph-fill ph-check-circle text-brand-500 text-lg mr-3 mt-0.5"></i>
+                                <span class="text-gray-600 text-sm">Contact Form Integration</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="ph-fill ph-check-circle text-brand-500 text-lg mr-3 mt-0.5"></i>
+                                <span class="text-gray-600 text-sm">WhatsApp Chat Button</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="ph-fill ph-check-circle text-brand-500 text-lg mr-3 mt-0.5"></i>
+                                <span class="text-gray-600 text-sm">Basic On-page SEO</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="ph-fill ph-check-circle text-brand-500 text-lg mr-3 mt-0.5"></i>
+                                <span class="text-gray-600 text-sm">Google Maps Embedding</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="ph-fill ph-check-circle text-brand-500 text-lg mr-3 mt-0.5"></i>
+                                <span class="text-gray-600 text-sm">Fast Loading Optimization</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="ph-fill ph-check-circle text-brand-500 text-lg mr-3 mt-0.5"></i>
+                                <span class="text-gray-600 text-sm">Quick Delivery (3–5 Days)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="ph-fill ph-check-circle text-brand-500 text-lg mr-3 mt-0.5"></i>
+                                <span class="text-gray-600 text-sm">7 Days Free Technical Support</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Important Note -->
+            <div class="max-w-2xl mx-auto mt-12 bg-amber-50 border border-amber-200 rounded-xl p-6 flex gap-4 reveal">
+                <i class="ph ph-warning-circle text-amber-500 text-2xl flex-shrink-0"></i>
+                <div>
+                    <h5 class="text-amber-900 font-semibold mb-1">Important Note</h5>
+                    <p class="text-amber-700 text-sm leading-relaxed">
+                        Custom Domain and Hosting charges are <strong class="font-bold">NOT included</strong> in the package price. Clients are responsible for paying domain registration, hosting, and yearly renewal charges separately according to their chosen provider (e.g., Hostinger, GoDaddy). We will assist you in purchasing these if needed.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="network" class="py-24 bg-white border-y border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+                
+                <!-- Founder Left Side -->
+                <div class="reveal">
+                    <h2 class="text-sm font-bold text-brand-600 tracking-wide uppercase mb-2">The Founder</h2>
+                    <h3 class="text-3xl font-bold text-gray-900 tracking-tight mb-8">Driven by design and digital growth.</h3>
+                    
+                    <div class="flex items-center gap-6 mb-6">
+                        <div class="w-24 h-24 rounded-full bg-gray-200 overflow-hidden border-4 border-white shadow-lg flex-shrink-0">
+                            <!-- Placeholder for founder image -->
+                            <img src="https://ui-avatars.com/api/?name=Kartik+Mehra&background=1f2937&color=fff&size=150" alt="Kartik Mehra" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-bold text-gray-900">Kartik Mehra</h4>
+                            <p class="text-gray-500 font-medium">Founder, Pixovra</p>
+                            <a href="https://www.instagram.com/kartikmehra.ai" target="_blank" class="mt-2 inline-flex items-center text-sm font-medium text-pink-600 hover:text-pink-700 transition-colors">
+                                <i class="ph-fill ph-instagram-logo mr-1.5 text-lg"></i> @kartikmehra.ai
+                            </a>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed text-sm">
+                        With a passion for modern aesthetics and functional development, I founded Pixovra to bridge the gap between beautiful design and business growth. My mission is to equip startups and creators with digital platforms that look like they cost millions, but are accessible to the ambitious.
+                    </p>
+                </div>
+
+                <!-- Digital Network Right Side -->
+                <div class="reveal delay-100">
+                    <h2 class="text-sm font-bold text-gray-500 tracking-wide uppercase mb-2">Our Digital Network</h2>
+                    <h3 class="text-2xl font-bold text-gray-900 tracking-tight mb-8">The Ecosystem</h3>
+                    
+                    <div class="space-y-4">
+                        <!-- Network Card 1 -->
+                        <div class="p-6 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-md transition-shadow">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="text-lg font-bold text-gray-900">Neural Profit Lab</h4>
+                                <div class="flex gap-2">
+                                    <a href="https://www.instagram.com/neuralprofit.ai" target="_blank" class="text-gray-400 hover:text-pink-600 transition-colors"><i class="ph-fill ph-instagram-logo text-xl"></i></a>
+                                    <a href="https://pin.it/4majnlULy" target="_blank" class="text-gray-400 hover:text-red-600 transition-colors"><i class="ph-fill ph-pinterest-logo text-xl"></i></a>
+                                </div>
+                            </div>
+                            <p class="text-gray-500 text-sm">Platform dedicated to AI, Automation, Blogging, SEO, Productivity and Online Earning strategies.</p>
+                        </div>
+
+                        <!-- Network Card 2 -->
+                        <div class="p-6 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-md transition-shadow flex justify-between items-center">
+                            <div>
+                                <h4 class="text-lg font-bold text-gray-900">Logo Design Studio</h4>
+                                <p class="text-gray-500 text-sm">Premium brand identity creation.</p>
+                            </div>
+                        </div>
+
+                        <!-- Network Card 3 -->
+                        <div class="p-6 rounded-2xl bg-gray-50 border border-gray-100 hover:shadow-md transition-shadow flex justify-between items-center">
+                            <div>
+                                <h4 class="text-lg font-bold text-gray-900">Blessify Pixel</h4>
+                                <p class="text-gray-500 text-sm">Digital art and creative assets.</p>
+                            </div>
+                            <a href="https://www.instagram.com/blessifypixel" target="_blank" class="text-gray-400 hover:text-pink-600 transition-colors"><i class="ph-fill ph-instagram-logo text-xl"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-gray-900 text-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <!-- Decorative blur -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-600 rounded-full mix-blend-screen filter blur-[100px] opacity-30"></div>
+
+            <div class="text-center max-w-3xl mx-auto mb-16 relative z-10 reveal">
+                <h2 class="text-sm font-bold text-brand-400 tracking-wide uppercase mb-2">Client Stories</h2>
+                <h3 class="text-3xl md:text-4xl font-bold tracking-tight">Don't just take our word for it.</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+                <!-- Testimonial 1 -->
+                <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-700 reveal">
+                    <div class="flex text-amber-400 mb-4 text-sm">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-6">"Pixovra delivered a website that exceeded our expectations. The design is clean, professional, and exactly what we needed to elevate our brand image. Highly recommended!"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center text-sm font-bold">AR</div>
+                        <div>
+                            <h5 class="font-semibold text-sm">Aman R.</h5>
+                            <span class="text-gray-500 text-xs">Startup Founder</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-700 reveal delay-100">
+                    <div class="flex text-amber-400 mb-4 text-sm">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-6">"The speed of delivery was impressive. We got our landing page up in 4 days, and it looks like a premium agency built it. The WhatsApp integration works flawlessly."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center text-sm font-bold">SM</div>
+                        <div>
+                            <h5 class="font-semibold text-sm">Sneha M.</h5>
+                            <span class="text-gray-500 text-xs">E-commerce Owner</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-700 reveal delay-200">
+                    <div class="flex text-amber-400 mb-4 text-sm">
+                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-6">"Kartik understood our vision perfectly. The transition from our old clunky site to this modern masterpiece was seamless. Great support even after launch."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center text-sm font-bold">VK</div>
+                        <div>
+                            <h5 class="font-semibold text-sm">Vikram K.</h5>
+                            <span class="text-gray-500 text-xs">Consultant</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-white">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 reveal">
+                <h2 class="text-3xl font-bold text-gray-900 tracking-tight">Frequently Asked Questions</h2>
+            </div>
+
+            <div class="space-y-4 reveal">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item border border-gray-200 rounded-xl overflow-hidden bg-white">
+                    <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition-colors">
+                        <span class="font-semibold text-gray-900">What is the delivery time for a basic website?</span>
+                        <i class="ph ph-caret-down text-gray-500 faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="px-6 pb-4 text-sm text-gray-600 leading-relaxed">
+                            For our Basic Website package, the standard delivery time is between 3 to 5 business days, provided we have received all necessary content (text, images, logo) from you promptly.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="faq-item border border-gray-200 rounded-xl overflow-hidden bg-white">
+                    <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition-colors">
+                        <span class="font-semibold text-gray-900">Do you provide domain and hosting?</span>
+                        <i class="ph ph-caret-down text-gray-500 faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="px-6 pb-4 text-sm text-gray-600 leading-relaxed">
+                            No, the cost of custom domain names (.com, .in, etc.) and web hosting are not included in our design packages. You will need to purchase these separately from providers like Hostinger or GoDaddy. We can guide you through this process if you need help.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="faq-item border border-gray-200 rounded-xl overflow-hidden bg-white">
+                    <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition-colors">
+                        <span class="font-semibold text-gray-900">What kind of support do you offer after launch?</span>
+                        <i class="ph ph-caret-down text-gray-500 faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="px-6 pb-4 text-sm text-gray-600 leading-relaxed">
+                            We include 7 Days of Free Technical Support after your website goes live. This covers bug fixes, minor text tweaks, and ensuring everything runs smoothly. For long-term support, we offer separate Website Maintenance plans.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="faq-item border border-gray-200 rounded-xl overflow-hidden bg-white">
+                    <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none hover:bg-gray-50 transition-colors">
+                        <span class="font-semibold text-gray-900">Are there any hidden charges in pricing?</span>
+                        <i class="ph ph-caret-down text-gray-500 faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="px-6 pb-4 text-sm text-gray-600 leading-relaxed">
+                            Absolutely not. We believe in transparent pricing. The price quoted for the web design (e.g., ₹7,499) is what you pay us. Just remember that third-party costs like domain, hosting, or paid plugins (if requested) are your responsibility.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 reveal">
+                <div class="grid grid-cols-1 lg:grid-cols-5">
+                    
+                    <!-- Contact Info & WhatsApp -->
+                    <div class="lg:col-span-2 bg-gray-900 text-white p-10 lg:p-12 flex flex-col justify-between relative overflow-hidden">
+                        <!-- decorative circle -->
+                        <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-brand-600 rounded-full opacity-20 blur-2xl"></div>
+                        
+                        <div class="relative z-10">
+                            <h3 class="text-3xl font-bold mb-4">Let's build something great.</h3>
+                            <p class="text-gray-400 text-sm mb-8">Fill out the form or reach out directly on WhatsApp to discuss your project requirements.</p>
+                            
+                            <div class="space-y-6">
+                                <div class="flex items-start">
+                                    <i class="ph ph-envelope text-xl text-brand-400 mr-4 mt-1"></i>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-400">Email us at</p>
+                                        <p class="text-base font-semibold">hello@pixovra.com</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="ph ph-map-pin text-xl text-brand-400 mr-4 mt-1"></i>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-400">Location</p>
+                                        <p class="text-base font-semibold">India, Available Worldwide</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-12 relative z-10">
+                            <a href="#" class="inline-flex items-center justify-center w-full py-4 px-6 rounded-xl bg-green-500 hover:bg-green-600 text-white font-semibold transition-colors shadow-lg shadow-green-500/30">
+                                <i class="ph-fill ph-whatsapp-logo text-2xl mr-2"></i>
+                                Chat on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="lg:col-span-3 p-10 lg:p-12">
+                        <h4 class="text-2xl font-bold text-gray-900 mb-8">Send us a message</h4>
+                        <form onsubmit="event.preventDefault(); alert('Form submission simulated. In a real app, this would send an email.');" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                    <input type="text" id="name" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all bg-gray-50 focus:bg-white" placeholder="John Doe" required>
+                                </div>
+                                <div>
+                                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                    <input type="tel" id="phone" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all bg-gray-50 focus:bg-white" placeholder="+91 98765 43210">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                <input type="email" id="email" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all bg-gray-50 focus:bg-white" placeholder="john@example.com" required>
+                            </div>
+                            
+                            <div>
+                                <label for="project" class="block text-sm font-medium text-gray-700 mb-1">Project Details</label>
+                                <textarea id="project" rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all bg-gray-50 focus:bg-white resize-none" placeholder="Tell us about your requirements, goals, and timeline..." required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full py-4 px-6 rounded-xl bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors shadow-md">
+                                Submit Inquiry
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <!-- Brand -->
+                <div class="lg:col-span-1">
+                    <span class="text-2xl font-bold tracking-tighter text-gray-900 block mb-4">Pixovra<span class="text-brand-600">.</span></span>
+                    <p class="text-gray-500 text-sm mb-6">Crafting Websites That Grow Brands. Premium digital experiences for modern businesses.</p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/kartikmehra.ai" target="_blank" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:bg-pink-50 hover:text-pink-600 transition-colors">
+                            <i class="ph-fill ph-instagram-logo text-xl"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                            <i class="ph-fill ph-linkedin-logo text-xl"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-900 transition-colors">
+                            <i class="ph-fill ph-x-logo text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h5 class="font-semibold text-gray-900 mb-4">Quick Links</h5>
+                    <ul class="space-y-3">
+                        <li><a href="#services" class="text-gray-500 text-sm hover:text-brand-600 transition-colors">Services</a></li>
+                        <li><a href="#portfolio" class="text-gray-500 text-sm hover:text-brand-600 transition-colors">Portfolio</a></li>
+                        <li><a href="#pricing" class="text-gray-500 text-sm hover:text-brand-600 transition-colors">Pricing</a></li>
+                        <li><a href="#network" class="text-gray-500 text-sm hover:text-brand-600 transition-colors">Our Network</a></li>
+                        <li><a href="#contact" class="text-gray-500 text-sm hover:text-brand-600 transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div>
+                    <h5 class="font-semibold text-gray-900 mb-4">Services</h5>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-500 text-sm hover:text-brand-600 transition-colors">Business Websites</a></li>
+                        <li><a href="#" class="text-gray-500 text-sm hover:text-brand-600 transition-colors">Landing Pages</a></li>
+                        <li><a href="#" class="text-gray-500 text-sm hover:text-brand-600 transition-colors">E-commerce Setup</a></li>
+                        <li><a href="#" class="text-gray-500 text-sm hover:text-brand-600 transition-colors">Website Redesign</a></li>
+                        <li><a href="#" class="text-gray-500 text-sm hover:text-brand-600 transition-colors">SEO & Maintenance</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal -->
+                <div>
+                    <h5 class="font-semibold text-gray-900 mb-4">Legal</h5>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-500 text-sm hover:text-gray-900 transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-500 text-sm hover:text-gray-900 transition-colors">Terms & Conditions</a></li>
+                        <li><a href="#" class="text-gray-500 text-sm hover:text-gray-900 transition-colors">Refund Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-400 text-sm">Copyright © 2026 Pixovra. All rights reserved.</p>
+                <p class="text-gray-400 text-sm flex items-center">
+                    Made with <i class="ph-fill ph-heart text-red-500 mx-1"></i> by Kartik Mehra
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Mobile Menu Toggle
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            const icon = btn.querySelector('i');
+
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+                if(menu.classList.contains('hidden')){
+                    icon.classList.remove('ph-x');
+                    icon.classList.add('ph-list');
+                } else {
+                    icon.classList.remove('ph-list');
+                    icon.classList.add('ph-x');
+                }
+            });
+
+            // Close mobile menu on link click
+            menu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                    icon.classList.remove('ph-x');
+                    icon.classList.add('ph-list');
+                });
+            });
+
+            // Scroll Reveal Animation via Intersection Observer
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const revealOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Only animate once
+                });
+            }, revealOptions);
+
+            revealElements.forEach(el => {
+                revealObserver.observe(el);
+            });
+
+            // FAQ Accordion Logic
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const btn = item.querySelector('button');
+                btn.addEventListener('click', () => {
+                    const isOpen = item.classList.contains('open');
+                    
+                    // Close all other items (optional, remove if you want multiple open)
+                    faqItems.forEach(otherItem => {
+                        otherItem.classList.remove('open');
+                    });
+
+                    // Toggle current item
+                    if (!isOpen) {
+                        item.classList.add('open');
+                    }
+                });
+            });
+
+            // Navbar Blur effect on scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 10) {
+                    navbar.classList.add('shadow-sm');
+                    navbar.classList.replace('bg-white/80', 'bg-white/90');
+                } else {
+                    navbar.classList.remove('shadow-sm');
+                    navbar.classList.replace('bg-white/90', 'bg-white/80');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
