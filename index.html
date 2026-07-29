@@ -659,7 +659,13 @@
                     <!-- Contact Form -->
                     <div class="lg:col-span-3 p-10 lg:p-12">
                         <h4 class="text-2xl font-bold text-gray-900 mb-8">Send us a message</h4>
-                        <form onsubmit="event.preventDefault(); alert('Form submission simulated. In a real app, this would send an email.');" class="space-y-6">
+                       <form action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
+
+<input type="hidden" name="access_key" value="b001680a-edc4-4680-bccc-1657b1b9eaae">
+
+<input type="hidden" name="subject" value="New Inquiry from Pixovra Website">
+
+<input type="hidden" name="from_name" value="Pixovra Website">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
